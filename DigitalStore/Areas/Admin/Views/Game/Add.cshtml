@@ -1,0 +1,358 @@
+﻿@model DigitalStore.Models.EF.Game
+@{
+    ViewBag.Title = "Thêm Game";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Home")" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index", "Game")" class="nav-link">Danh sách Game</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Add","Game")" class="nav-link">Thêm Game</a>
+        </li>
+    </ul>
+}
+@section body{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Thêm Game</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Game")">Game</a></li>
+                        <li class="breadcrumb-item active">Thêm mới</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Thông tin Game mới</h3>
+
+                <div class="card-tools">
+                    <a href="~/Game/Add" class="btn btn-primary">Thêm Game</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-body p-0">
+                    <div class="bs-stepper linear">
+
+                        <div class="bs-stepper-content">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("Add", "Game", FormMethod.Post, new { }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(false)
+                                    <div class="card-header p-2">
+                                        <ul class="nav nav-pills">
+                                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin chung</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>
+                                            @*<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">SEO</a></li>*@
+                                        </ul>
+                                    </div><!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="active tab-pane" id="activity">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Tên Game</label>
+                                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Tên Game" })
+                                                    @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Alias</label>
+                                                    @Html.TextBoxFor(x => x.Alias, new { @class = "form-control", @placeholder = "Alias" })
+                                                    @Html.ValidationMessageFor(x => x.Alias, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Hình ảnh</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
+                                                        </div>
+                                                        <div class="input-group-append">
+                                                            <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage');" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Mô tả</label>
+                                                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Chi Tiết</label>
+                                                    @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Thể loại Game</label>
+                                                    @Html.DropDownListFor(x => x.GameGenreId, ViewBag.GameGenre as SelectList, "Chọn thể loại Game", new { @class = "form-control", @placeholder = "Danh sách thể loại game" })
+                                                    @Html.ValidationMessageFor(x => x.GameGenreId, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Nhà phát hành</label>
+                                                    @Html.DropDownListFor(x => x.PublisherId, ViewBag.Publisher as SelectList, "Chọn nhà phát hành", new { @class = "form-control", @placeholder = "Danh sách nhà phát hành" })
+                                                    @Html.ValidationMessageFor(x => x.PublisherId, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail">Giá nhập</label>
+                                                            <input type="text" name="demoOriginalPrice" value="0" id="demoOriginalPrice" class="form-control auto" data-a-sign="" data-a-dec="," data-a-sep="." />
+                                                            @Html.HiddenFor(x => x.OriginalPrice, new { @class = "", @placeholder = "Giá nhập" })
+                                                            @Html.ValidationMessageFor(x => x.OriginalPrice, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail">Giá</label>
+                                                            <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-sign="" data-a-dec="," data-a-sep="." />
+                                                            @Html.HiddenFor(x => x.Price, new { @class = "", @placeholder = "Giá" })
+                                                            @Html.ValidationMessageFor(x => x.Price, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail">Giá khuyến mãi</label>
+
+                                                            <input type="text" name="demoPriceSale" id="demoPriceSale" value="0" class="form-control auto" data-a-sign="" data-a-dec="," data-a-sep="." />
+                                                            @Html.HiddenFor(x => x.PriceSale, new { @class = "", @placeholder = "Giá khuyến mãi" })
+                                                            @Html.ValidationMessageFor(x => x.PriceSale, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input", @id = "customCheckbox2", @checked = "checked" })
+                                                                <label for="customCheckbox2" class="custom-control-label">Trạng Thái</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            @Html.CheckBoxFor(x => x.IsNew, new { @class = "custom-control-input", @id = "IsHotCheckbox" })
+                                                            <label for="IsHotCheckbox" class="custom-control-label">Mới</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            @Html.CheckBoxFor(x => x.IsFeatured, new { @class = "custom-control-input", @id = "IsFeatureCheckbox" })
+                                                            <label for="IsFeatureCheckbox" class="custom-control-label">Nổi bật</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            @Html.CheckBoxFor(x => x.IsSale, new { @class = "custom-control-input", @id = "IsSaleCheckbox" })
+                                                            <label for="IsSaleCheckbox" class="custom-control-label">Khuyến mãi</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="timeline">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <input type="button" class="btn btn-primary" id="iTaiAnh" onclick="BrowseServer();" value="Tải ảnh" />
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <table class="table table-hover" id="tbAnhSanPham">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">#</th>
+                                                                    <th class="text-center">Ảnh</th>
+                                                                    <th class="text-center">Ảnh trưng bày</th>
+                                                                    <th class="text-center">Thao tác</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbHtml">
+                                                            </tbody>
+
+                                                        </table>
+                                                        <input type="hidden" id="tCurrentId" value="0" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+
+                                            <div class="tab-pane" id="settings">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                        <div class="form-group">
+                                            <a href="/Admin/Game" class="btn btn-danger">Quay lại</a>
+                                            <button type="submit" class="btn btn-success">Thêm mới</button>
+                                        </div>
+                                    </div><!-- /.card-body -->
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+}
+    @section scripts{
+        <script>
+    $(document).ready(function () {
+                $('.auto').autoNumeric('init');
+                $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoPrice').autoNumeric('get');
+                    $('#Price').val(demoGet);
+                    $('#Price').autoNumeric('set', demoGet);
+                });
+                $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoPriceSale').autoNumeric('get');
+                    $('#PriceSale').val(demoGet);
+                    $('#PriceSale').autoNumeric('set', demoGet);
+                });
+                $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoOriginalPrice').autoNumeric('get');
+                    $('#OriginalPrice').val(demoGet);
+                    $('#OriginalPrice').autoNumeric('set', demoGet);
+                });
+                var editor = CKEDITOR.replace('txtDetail', {
+                    filebrowserBrowseUrl: '/Content/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '/Content/ckfinder/ckfinder.html?type=Images',
+                    filebrowserUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                    filebrowserImageUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                    filebrowserWindowWidth: '1000',
+                    filebrowserWindowHeight: '700',
+                    customConfig: '/Content/ckeditor/config.js',
+                    extraAllowedContent: 'span',
+                });
+                CKFinder.setupCKEditor(editor);
+            });
+            //function BrowseServer(field) {
+            //    var finder = new CKFinder();
+            //    finder.selectActionFunction = function (fileUrl) {
+            //        addImageProduct(fileUrl)
+            //    };
+            //    finder.popup();
+            //}
+
+            function BrowseServer(field) {
+                var finder = new CKFinder();
+                finder.basePath = '/Content/ckfinder/';
+                finder.selectActionFunction = function (fileUrl) {
+                    document.getElementById(field).value = fileUrl;
+                };
+                finder.popup();
+            }
+            function addImageProduct(url) {
+                var temp = $('#tCurrentId').val();
+                var currentId = parseInt(temp) + 1;
+                var str = "";
+                if (currentId == 1) {
+                    str += ` <tr id="trow_${currentId}">
+                                         <td class="text-center">${currentId}</td>
+                                         <td class="text-center"><img width="80" src="${url}"/> <input type='hidden' value="${url}" name="Images"/> </td>
+                                         <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" /></td>
+                                         <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-danger btnXoaAnh">Xóa</a></td>
+                                     </tr>`;
+                }
+                else {
+                    str += ` <tr id="trow_${currentId}">
+                                         <td class="text-center">${currentId}</td>
+                                         <td class="text-center"><img width="80" src="${url}"/> <input type='hidden' value="${url}" name="Images"/> </td>
+                                         <td class="text-center"><input type="radio" value="${currentId}" name="rDefault"/></td>
+                                         <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-danger btnXoaAnh">Xóa</a></td>
+                                     </tr>`;
+                }
+                $('#tbHtml').append(str);
+                $('#tCurrentId').val(currentId);
+                $('#tbHtml tr td a').each(function () {
+                    $(this).click(function () {
+                        var conf = confirm("Bạn có muốn xóa ảnh này không ?");
+                        if (conf === true) {
+                            var _id = $(this).data('id');
+                            $('#trow_' + _id).fadeTo('fast', 0.5, function () {
+                                $(this).slideUp('fast', function () {
+                                    $(this).remove();
+                                });
+                            });
+                            var temp = $('#tCurrentId').val();
+                            var currentId = parseInt(temp) - 1;
+                            $('#tCurrentId').val(currentId);
+                        }
+
+                    });
+                });
+            }</script>
+    }
+
+

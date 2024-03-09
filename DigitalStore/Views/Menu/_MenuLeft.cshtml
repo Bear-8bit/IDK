@@ -1,0 +1,22 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.GameGenre>
+
+@if (Model != null && Model.Any())
+{
+    <!-- Banner -->
+    <ul class="sidebar_categories">
+        @foreach (var item in Model)
+        {
+            if (ViewBag.Genre_ID == item.Id)
+            {
+                <li class="active"><a href="/the-loai-game/@item.Alias-@(item.Id)"><span><i class='bx bx-right-arrow'></i></span>@item.Name</a></li>
+            }
+            else
+            {
+                <li><a href="/the-loai-game/@item.Alias-@(item.Id)">@item.Name</a></li>
+            }
+
+        }
+
+    </ul>
+}
+

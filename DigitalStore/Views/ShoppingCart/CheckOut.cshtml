@@ -1,0 +1,93 @@
+﻿@using DigitalStore.Common
+@{
+    ViewBag.Title = "Thanh toán";
+}
+
+<link href="~/Content/assets/styles/categories_responsive.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+
+<!-- Slider -->
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                </ul>
+            </div>
+
+
+            <!-- Main Content -->
+            <!-- Products -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 class="">Thanh toán</h1>
+                    <p>Thông tin đơn hàng</p>
+                </div>
+
+            </div>
+            <hr />
+            @if (ViewBag.CheckCart != null)
+            {
+                <div class="container" style="width:60%;">
+                    <div class="row">
+
+                        <div class="col-md-6 ml-5">
+                            @Html.Action("Partial_CheckOut", "ShoppingCart")
+                        </div>
+                        <div class="col-md-5">
+                            @Html.Action("Partical_Item_ThanhToan", "ShoppingCart")
+
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    Bạn chưa có sản phẩm nào
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script src="~/Scripts/jsShopping.js"></script>
+    <script>
+        function OnSuccessCO(rs) {
+            if (rs.Success) {
+                $('#show_success').html("Đặt hàng thành công");
+            }
+        }
+        $(document).ready(function () {
+            $('#myForm').validate({
+                rules: {
+                    'CustomerName': {
+                        required: true
+                    },
+                    'Phone': {
+                        required: true
+                    },
+                    'Address': {
+                        required: true
+                    },
+                    'Email': {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    'CustomerName': 'Bạn không để trống trường này',
+                    'Phone': 'Bạn không để trống trường này',
+                    'Address': 'Bạn không để trống trường này',
+                    'Email': 'Email chưa hợp lệ',
+                }
+        });
+    </script>
+}
+
+

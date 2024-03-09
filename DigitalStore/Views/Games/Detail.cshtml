@@ -1,0 +1,237 @@
+﻿@model DigitalStore.Models.EF.Game
+@{
+    ViewBag.Title = "Detail";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css?version=1">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
+@if (Model != null)
+{
+    var wishlist = Model.Wishlists.FirstOrDefault(x => x.UserName == User.Identity.Name);
+    var isWishlist = false;
+    if (wishlist != null)
+    {
+        isWishlist = true;
+    }
+    <div class="container single_product_container">
+        <div class="row">
+            <div class="col-lg-7">
+
+                <div class="single_product_pics">
+                    <div class="row">
+                        <div class="col-lg-10 image_col order-lg-1 order-1">
+                            <div class="single_product_image">
+                                <div class="single_product_image_background" style="background-image:url(@Model.Image)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="product_details">
+                    <div class="product_details_title">
+                        <h2>@Model.Name</h2>
+                        <p>@Html.Raw(Model.Description)</p>
+                    </div>
+                    @if (Model.PriceSale > 0)
+                    {
+                        <div class="original_price" style="color: #162938">@DigitalStore.Common.Common.FormatNumber(Model.Price, 0) đ</div>
+                        <div class="product_price" style="color: #162938">@DigitalStore.Common.Common.FormatNumber(Model.PriceSale, 0) đ</div>
+                    }
+                    else
+                    {
+                        <div class="product_price" style="color: #162938">@DigitalStore.Common.Common.FormatNumber(Model.Price, 0) đ</div>
+                    }
+                    <ul class="star_rating">
+
+                    </ul>
+                    <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                        <div class="red_buttons add_to_cart_buttons"><a href="#" class="btnAddToCart" data-id="@Model.Id">Thêm vào giỏ hàng</a></div>
+                        @if (isWishlist == true)
+                        {
+                            <div class="product_favorite active d-flex flex-column align-items-center justify-content-center top-10"></div>
+                        }
+                        else
+                        {
+                            <div class="product_favorite d-flex flex-column align-items-center justify-content-center top-10"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="best_sellers" style=" height: 200px; overflow: hidden; right: 1.5%;">
+            <div class="container">
+                <div class="row">
+
+                </div>
+                <!--<div class="row">
+                    <div class="col">
+                        <div class="product_slider_container">
+                            @if (Model.GameImage != null && Model.GameImage.Any())
+                            {
+                                @*<div class="owl-carousel owl-theme product_slider" style="justify-content: space-between;">
+
+                                     Slide 1 
+                                    @foreach (var item in Model.GameImage)
+                                    {
+
+                                        <div class="owl-item product_slider_item" style="height: 120px; overflow: hidden;">
+                                            <div class="product-item">
+                                                <div class="product discount">
+                                                    <div class="product_image">
+                                                        <img src="@item.Image" alt="" data-image="@item.Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>*@
+                            }-->
+
+                            <!-- Slider Navigation -->
+
+                            <!--<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column" style="top: 60px;">
+                                <i class='bx bxs-left-arrow'></i>
+                            </div>
+                            <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column" style="top: 60px; right: 1.8%;">
+                                <i class='bx bxs-right-arrow'></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            <!--</div>
+        </div>-->
+    </div>
+
+    <!-- Tabs -->
+
+    <div class="tabs_section_container">
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="tabs_container">
+                        <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                            <li class="tab active" data-active-tab="tab_1"><span>Chi tiết</span></li>
+                            
+                            <li class="tab" data-active-tab="tab_3"><span>Đánh giá (@ViewBag.CountReview )</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                    <!-- Tab Description -->
+
+                    <div id="tab_1" class="tab_container active">
+                        <div class="row">
+                            <div class="col-lg-10 desc_col">
+                                <div class="tab_title">
+                                    <h4>Chi tiết</h4>
+                                </div>
+                                <div class="tab_text_block">
+                                    <h2>@Model.Name</h2>
+                                    <p>@Html.Raw(Model.Detail)</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Additional Info -->
+
+                    <div id="tab_2" class="tab_container">
+                        <div class="additional_info_col">
+                            <div class=" tab_title additional_info_title">
+                                <h4>Yêu cầu cấu hình</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5>MINIMUM: </h5>
+                                <p>OS:<span>Windows 7 64-bit | Windows 8 64-bit | Windows 10 64-bit</span></p>
+                                <p>Processor:<span>Intel Core i3-2100 | AMD FX-6300</span></p>
+                                <p>Memory:<span>4 GB RAM</span></p>
+                                <p>Graphics:<span> NVIDIA GeForce GTX 760 | AMD Radeon HD 7950</span></p>
+                                <p>DirectX:<span>Version 11</span></p>
+                                <p>Network:<span>Broadband Internet connection</span></p>
+                                <p>Storage:<span> 25 GB available space</span></p>
+                                <p>Sound Card:<span>DirectX 11 Compatible</span></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5>MAXIMUM: </h5>
+                                <p>OS:<span>Windows 7 64-bit | Windows 8 64-bit | Windows 10 64-bit</span></p>
+                                <p>Processor:<span>Intel Core i5-2500K | AMD Ryzen 5 1400</span></p>
+                                <p>Memory:<span> 8 GB RAM</span></p>
+                                <p>Graphics:<span>  NVIDIA GeForce GTX 970 | AMD Radeon RX 570</span></p>
+                                <p>DirectX:<span>Version 11</span></p>
+                                <p>Network:<span>Broadband Internet connection</span></p>
+                                <p>Storage:<span> 25 GB available space</span></p>
+                                <p>Sound Card:<span>DirectX 11 Compatible</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Reviews -->
+
+                    <div id="tab_3" class="tab_container">
+                        <div class="row">
+
+                            <!-- User Reviews -->
+
+                            <div class="col-lg-6 reviews_col">
+                                @Html.Action("_Load_Review", "Review", new { gameId = Model.Id })
+                            </div>
+
+                            <!-- Add Review -->
+                            @if (!Request.IsAuthenticated)
+                            {
+                                <div class="col-lg-6 add_review_col" style="top: 100px;">
+
+                                    <div>
+                                        <h3 style="text-align: center; line-height: 40px;">Bạn phải đăng nhập để thực hiện đánh giá sản phẩm</h3>
+                                    </div>
+                                    <div style="left: 210px;">
+                                        <button class="btn btn-sm border-1" style="color: #F1F6F9;">
+                                            <a class="btn" style="color: #212A3E;" type="button" href="/Account/Login">Đăng nhập</a>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-lg-6 add_review_col">
+
+                                    @Html.Action("_Review", "Review", new { gameId = Model.Id })
+
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @Html.Action("Partial_Related_Publisher", "Games", new { gameId = Model.Id, publisherId = Model.PublisherId })
+    <!-- Best-seller -->
+
+    @Html.Action("Partial_Related", "Games", new { gamegenreId = Model.GameGenreId, gameId = Model.Id })
+
+    <!-- Newsletter -->
+
+    <div class="newsletter">
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="~/Content/assets/js/single_custom.js?version=1"></script>
+}

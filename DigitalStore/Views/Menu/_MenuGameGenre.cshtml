@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.GameGenre>
+
+@if (Model != null && Model.Any()) 
+{
+    <div class="banner" style="left: 1%; margin-bottom: -60px;">
+        <div class="container" style="top: 1px;">
+            <div class="text-center">
+                <div class="section_title new_arrivals_title">
+                    <h2>Tất cả thể loại</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="product_slider_container ">
+                    <div class="owl-carousel owl-theme product_slider ">
+                        @foreach (var item in Model)
+                        {
+
+                            <div class="col-md-15 ">
+                                <div class="banner_item align-items-center" style="background-image: url(@item.Image)">
+                                    <div class="banner_category">
+                                        <a href="/the-loai-game/@item.Alias-@(item.Id)">@item.Name</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+                    </div>
+                    <!-- Slider Navigation -->
+                    <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-colum" style="top: 45%; left: 0.1%">
+                        <i class='bx bxs-left-arrow'></i>
+                    </div>
+                    <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column" style="top: 45%; right: 1.7%">
+                        <i class='bx bxs-right-arrow'></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

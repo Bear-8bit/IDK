@@ -1,0 +1,122 @@
+﻿@model PagedList.IPagedList<DigitalStore.Models.EF.Order>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+        </li>
+
+    </ul>
+}
+@section body{
+    <section class="content">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách đơn hàng</h3>
+
+
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Order_Code</td>
+                                <td>@item.UserName</td>
+                                <td>@DigitalStore.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
+                                <td>@(item.TypePayment==1?"Chờ thanh toán":"Đã thanh toán")</td>
+                                <td>@item.CreatedDate.ToString()</td>
+                                <td>
+                                    <a href="@Url.Action("ViewOrder", "Order", new {@id = item.Id})" class="btn btn-sm btn-success">Xem</a>
+                                    <a href="#" class="btn btn-sm btn-danger btnCapNhat" data-id="@item.Id">Cập nhật</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+
+            </table>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align: right;">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+
+    </section>
+
+
+    <div class="modal fade show" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cập nhật trạng thái</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" data-dismiss="modal">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="txtOrderId" value="1" />
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select class="form-control ddTrangThai" id="ddTrangThai">
+                            <option value="2">Đã thanh toán</option>
+                            <option value="3">Đã thanh toán</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btnClose" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary btnLuu" id="btnLuu">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btnClose").click(function () {
+                $("#modal-default").css("display", "none");
+            });
+
+            $(".btnCapNhat").click(function () {
+                $("#modal-default").css("display", "block");
+            });
+        });
+    </script>
+}
+
+

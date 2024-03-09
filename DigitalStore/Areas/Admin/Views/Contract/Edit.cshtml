@@ -1,0 +1,241 @@
+﻿@model DigitalStore.Models.EF.Contract
+@{
+    ViewBag.Title = "Cập nhật Hợp đồng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Home")" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Contract")" class="nav-link">Hợp đồng</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Edit","Contract")" class="nav-link">Cập nhật thông tin hợp đồng</a>
+        </li>
+    </ul>
+}
+@section body{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Cập nhật Hợp đồng</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Game")">Hợp đồng</a></li>
+                        <li class="breadcrumb-item active">Cập nhật</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Thông tin cập nhật</h3>
+
+                <div class="card-tools">
+                    <a href="~/Contract/Edit" class="btn btn-primary">Cập nhật thông tin Hợp đồng</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-body p-0">
+                    <div class="bs-stepper linear">
+
+                        <div class="bs-stepper-content">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("Edit", "Contract", FormMethod.Post, new { }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(false)
+                                    <div class="card-header p-2">
+                                        <ul class="nav nav-pills">
+                                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin chung</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">SEO</a></li>
+                                        </ul>
+                                    </div><!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="active tab-pane" id="activity">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Tên sản phẩm</label>
+                                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Tên sản phẩm" })
+                                                    @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Loại hợp đồng</label>
+                                                    @Html.DropDownListFor(x => x.ContractCategoryId, ViewBag.ContractCate as SelectList, "Chọn loại hợp đồng", new { @class = "form-control", @placeholder = "Danh mục hợp đồng" })
+                                                    @Html.ValidationMessageFor(x => x.ContractCategoryId, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Khách hàng</label>
+                                                    @Html.TextBoxFor(x => x.NameSideB, new { @class = "form-control", @placeholder = "Tên khách hàng" })
+                                                    @Html.ValidationMessageFor(x => x.NameSideB, null, new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Ngày bắt đầu hiệu lực</label>
+                                                            @Html.TextBoxFor(x => x.ActiveDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @readonly = "true", @placeholder = DateTime.Now.Date })
+                                                            @Html.ValidationMessageFor(x => x.ActiveDate, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Ngày kết thúc hiệu lực</label>
+                                                            @Html.TextBoxFor(x => x.ExpireDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @readonly = "true", @placeholder = DateTime.Now.AddDays(1).Date })
+                                                            @Html.ValidationMessageFor(x => x.ExpireDate, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail">Giá trị hợp đồng</label>
+                                                            <input type="text" name="demoPrice" value="@Html.DisplayFor(x => x.Price)" id="demoPrice" class="form-control auto" data-a-sign="" data-a-dec="," data-a-sep="." />
+                                                            @Html.HiddenFor(x => x.Price, new { @class = "", @placeholder = "Giá trị hợp đồng"})
+                                                            @Html.ValidationMessageFor(x => x.Price, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+
+                                            <div class="tab-pane" id="settings">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                        <div class="form-group">
+                                            <a href="/Admin/Contract" class="btn btn-danger">Quay lại</a>
+                                            <button type="submit" class="btn btn-success">lưu</button>
+                                        </div>
+                                    </div><!-- /.card-body -->
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+                $('.auto').autoNumeric('init');
+                $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoPrice').autoNumeric('get');
+                    $('#Price').val(demoGet);
+                    $('#Price').autoNumeric('set', demoGet);
+                });
+                $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoPriceSale').autoNumeric('get');
+                    $('#PriceSale').val(demoGet);
+                    $('#PriceSale').autoNumeric('set', demoGet);
+                });
+                $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
+                    var demoGet = $('#demoOriginalPrice').autoNumeric('get');
+                    $('#OriginalPrice').val(demoGet);
+                    $('#OriginalPrice').autoNumeric('set', demoGet);
+                });
+                var editor = CKEDITOR.replace('txtDetail', {
+                    filebrowserBrowseUrl: '/Content/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '/Content/ckfinder/ckfinder.html?type=Images',
+                    filebrowserUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                    filebrowserImageUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                    filebrowserWindowWidth: '1000',
+                    filebrowserWindowHeight: '700',
+                    customConfig: '/Content/ckeditor/config.js',
+                    extraAllowedContent: 'span',
+                });
+                CKFinder.setupCKEditor(editor);
+            });
+        $('.datepicker').datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date()
+        });
+        var date = new Date();
+        date.setDate(date.getDate());
+        date.setFullYear(date.getFullYear() - 18);
+        $("#txtActiveDate").datepicker('setDate', date);
+        $("#txtActiveDate").datepicker('option', 'maxDate', new Date())
+        $("#txtActiveDate").change(function () {
+
+        });
+    </script>
+}
+
+

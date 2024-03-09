@@ -1,0 +1,83 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.Wishlist>
+@{
+    ViewBag.Title = "Danh sách yêu thích";
+}
+<link href="~/Content/assets/styles/categories_responsive.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+<style>
+    .news_section_container {
+        margin-top: 120px;
+        width: 75%;
+    }
+
+
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 40px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<div class="container news_section_container">
+    <div class="breadcrumbs d-flex flex-row align-items-center">
+        <ul>
+            <li><a href="/Home/Index">Trang chủ</a></li>
+            <li class="active">
+                <a href="#"><i class='bx bx-right-arrow'></i>@ViewBag.Title</a>
+            </li>
+        </ul>
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            <div class="col-md-12 ">
+                <h1 class="title-news"> Sản phẩm yêu thích </h1>
+            </div>
+        </div>
+        foreach (var item in Model)
+        {
+
+            <div class="row row-item-new" style="height: 200px;">
+                <div class="col-md-3">
+                    <div class="img-box">
+                        <img src="@item.Game.Image" alt="@item.Game.Name" style="border: 1px solid #fff; border-radius: 15px;" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="content-box">
+                        <h3><a href="/chi-tiet/@item.Game.Alias-@(item.Game.Id)" style="color: #162938;">@item.Game.Name</a></h3>
+                        <div class="description-box">
+                            @item.Game.Description
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row row-item-new">
+            <div class="row">
+                <div class="col-md-6" style="left: 380px;">
+                    <img src="~/Content/assets/test/nofavorite.png" style="width: 300px; height: auto;" />
+                </div>
+                <div class="col-md-10" style="left: 220px; top: 20px; height: 100px;">
+                    <h3>Bạn chưa thêm sản phẩm nào vào danh sách yêu thích</h3>
+                </div>
+            </div>
+        </div>
+    }
+</div>

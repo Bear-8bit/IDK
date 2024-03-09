@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/contact_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/contact_responsive.css">
+<div class="container contact_container">
+
+    <!-- Map Container -->
+
+    <div class="row">
+        <div class="col">
+            <div id="google_map">
+                <div class="map_container">
+                    <div id="map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4602263434153!2d106.66478451021172!3d10.776019959157704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752edb765b5c25%3A0x9a3519bdad5a85a3!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOZ2_huqFpIG5n4buvIC0gVGluIGjhu41jIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCAoSFVGTElUKQ!5e0!3m2!1svi!2s!4v1699163979290!5m2!1svi!2s" width="1200" height="510" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us -->
+
+    <div class="row">
+
+        <div class="col-lg-6 contact_col">
+            <div class="contact_contents">
+                <h1>Trở thành đối tác</h1>
+                <p>Bạn mong muốn trở thành đối tác với Pinwheel Galaxy bạn chỉ cần đăng ký một tài khoản đối tác thì bạn có thể đăng tải và bán game của bạn hoặc là trở thành một nhà cung cấp game.</p>
+                <div>
+                    
+                </div>
+                <div>
+                    <h4>Thông tin liên hệ: </h4>
+                    <p>(+84) 686-6688</p>
+                    <p>info.pinwheelgalaxy@gmail.com</p>
+                </div>
+                
+                <div>
+                    <p>Giờ làm việc: 8.00-18.00 Thứ 2 - Thứ 6</p>
+                    <p>Đóng cửa: Chủ nhật</p>
+                </div>
+            </div>
+
+            <!-- Follow Us -->
+
+            <div class="follow_us_contents">
+                <h1>Theo dõi chúng tôi</h1>
+                <ul class="social d-flex flex-row-10" >
+                    <li style="margin-left: -40px;"><a href="#" style="background-color: #3a61c9"><i class='bx bxl-steam'></i></a></li>
+                    <li><a href="#" style="background-color: #41a1f6"><i class='bx bxl-discord-alt'></i></a></li>
+                    <li><a href="#" style="background-color: #fb4343"><i class='bx bxl-youtube'></i></a></li>
+                    <li><a href="#" style="background-color: #6441a5"><i class='bx bxl-twitch'></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 get_in_touch_col">
+            <div class="get_in_touch_contents">
+                <h1>Đăng ký tài khoản đối tác</h1>
+                <p>Lựa chọn để tạo tài khoản phù hợp với nhu cầu của bạn</p>
+                <div style="padding-top: 80px;">
+                    <h4>Nhà cung cấp Game</h4>
+                    <div class="row" style="">
+
+                        <div class="col-lg-8">
+                            <p>Lựa chọn này dành cho những khách hàng có mong muốn trở thành nhà cung cấp game </p>
+                        </div>
+                        <div class="col-4" style="padding-left: 50px;">
+                            <button class="red_button message_submit_btn trans_300" style="color: #FFF;">
+                                <a class="btn" style="color: #FFF;" type="button" href="/Account/RegisterPublisher">Đăng ký</a>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div style="padding-top: 100px;">
+                    <h4>Đối tác quảng cáo</h4>
+                    <div class="row" style="">
+
+                        <div class="col-lg-7">
+                            <p>Lựa chọn dành cho những công ty lớn có mong muốn trở thành đối tác Marketing</p>
+                        </div>
+                        <div class="col-5" style="padding-left: 100px;">
+                            <button class="red_button message_submit_btn trans_300" style="color: #FFF;">
+                                <a class="btn" style="color: #FFF;" type="button" href="/Account/RegisterMarketingPartner">Đăng ký</a>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="padding-top: 100px;">
+                    <h4></h4>
+                    <div class="row" style="">
+
+                        <div class="col-lg-7">
+                            <p>Đã có tài khoản đối tác</p>
+                        </div>
+                        <div class="col-5" style="padding-left: 100px;">
+                            <button class="red_button message_submit_btn trans_300" style="color: #FFF;">
+                                <a class="btn" style="color: #FFF;" type="button" href="/Admin/Account/Login">Đăng nhập</a>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/assets/js/contact_custom.js"></script>
+
+}

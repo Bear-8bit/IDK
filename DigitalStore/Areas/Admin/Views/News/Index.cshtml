@@ -1,0 +1,217 @@
+﻿@model PagedList.PagedList<DigitalStore.Models.EF.GameNews>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Danh sách tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+
+@section body{
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý tin tức</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">@ViewBag.Title</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách @ViewBag.Title</h3>
+                <div class="card-tools">
+                    <a href="@Url.Action("Add","News")" class="btn btn-primary">Thêm mới</a>
+                    <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        @using (Html.BeginForm("Index", "News", FormMethod.Get, new { }))
+                        {
+                            <div class="input-group input-group-sm">
+                                @Html.TextBox("SearchText", null, new { @class = "form-control" })
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="SelectAll" /></th>
+                            <th>STT</th>
+                            <th>Hình ảnh</th>
+                            <th>Tiêu đề tin</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th style="width: 150px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1; ;
+                            foreach (var item in Model)
+                            {
+                                var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
+                                <tr id="trow_@item.Id">
+                                    <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                                    <td>@i</td>
+                                    <td><img src="@item.Image" style="width: 50px;" /></td>
+                                    <td>@item.Title</td>
+                                    <td>
+                                        <a href='#' data-id="@item.Id" class="btnActive">
+                                            @Html.Raw(strCheck)
+                                        </a>
+                                    </td>
+                                    <td>@item.CreatedDate</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Action("Edit","News", new {id = item.Id})" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">Không có bản ghi nào</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6" style="text-align: right;">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </section>
+}
+@section scripts{
+    <script>$(document).ready(function () {
+            $('body').on('click', '#BtnDeleteAll', function () {
+                var str = "";
+                var checkbox = $(this).parents('.card').find('tr td input:checkbox');
+                var i = 0;
+                checkbox.each(function () {
+                    if (this.checked) {
+                        checkbox.attr('selected', 'checked');
+                        var _id = $(this).val();
+                        if (i === 0) {
+                            str += _id;
+                        } else {
+                            str += "," + _id;
+                        }
+                        i++;
+                    }
+                    else {
+                        checkbox.attr('selected', '');
+                    }
+                });
+                if (str.length > 0) {
+                    var conf = confirm('Bạn có chắc chắn muốn xóa các mục này không ?')
+                    if (conf === true) {
+                        $.ajax({
+                            url: "/Admin/News/DeleteAll",
+                            type: 'POST',
+                            data: { ids: str },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            $('body').on('change', '#SelectAll', function () {
+                var checkStatus = this.checked;
+                var checkbox = $(this).parents('.card-body').find('tr td input:checkbox');
+                checkbox.each(function () {
+                    this.checked = checkStatus;
+                    if (this.checked) {
+                        checkbox.attr('selected', 'checked');
+                    }
+                    else {
+                        checkbox.attr('selected', '');
+                    }
+                });
+            });
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                var conf = confirm(" Bạn có chắc chắn xóa không ?");
+                if (conf === true) {
+                    $.ajax({
+                        url: "/Admin/News/Delete",
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('#trow_' + id).remove();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('body').on('click', '.btnActive', function (e) {
+                e.preventDefault();
+                var btn = $(this)
+                var id = btn.data("id");
+                $.ajax({
+                    url: "/Admin/News/IsActive",
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        debugger;
+                        if (rs.success)
+                        {
+                            if (rs.IsActive) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                                location.reload();
+                            }
+                            else {
+                                btn.html("<i class='fas fa-times text-danger'></i>");
+                                location.reload();
+                            }
+                        }
+
+                    }
+                });
+            });
+        });</script>
+}

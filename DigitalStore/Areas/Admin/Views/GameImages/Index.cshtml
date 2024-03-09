@@ -1,0 +1,113 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.GameImage>
+@{
+    ViewBag.Title = "Ảnh Game";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+<style>
+    .glImage {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+        .glImage li {
+            display: inline-block;
+            position: relative;
+        }
+
+    .box-btn {
+        position: absolute;
+        bottom: 0;
+        top: 170px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+</style>
+<section class="content">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Ảnh sản phẩm</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-danger" title="Collpase">
+                    Xóa hết
+                </button>
+
+                <input type="button" class="btn btn-success" value="Tải ảnh" onclick="BrowseServer();" />
+            </div>
+
+        </div>
+
+        <div class="card-body">
+            <ul class="glImage">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li id="trow_@item.Id">
+                            <img src="@item.Image" style="width: 20rem;" />
+                            <div class="box-btn">
+                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete"><i class="fa fa-trash"></i></a>
+                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-success btnDefault"><i class="fa fa-check"></i></a>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="card-body">
+
+        </div>
+
+    </div>
+
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+<script src="~/Content/ckfinder/ckfinder/ckfinder.js"></script>
+<script>
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+            AddImage(@ViewBag.GameId, fileUrl);
+            };
+            finder.popup();
+        }
+
+        function AddImage(id, url) {
+            $.ajax({
+                url: '/Admin/GameImages/AddImage',
+                type: 'POST',
+                data: { GameId: id, url: url },
+                success: function (rs) {
+                    if (rs.Success) {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+
+            $(document).ready(function () {
+                $('body').on('click', '.btnDelete', function () {
+                    var id = $(this).data('id');
+                    var conf = confirm("Bạn có muốn xóa danh mục này không ?");
+                    if (conf === true) {
+                        $.ajax({
+                            url: '/Admin/GameImages/Delete',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#trow_' + id).remove();
+                                }
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            });
+</script>

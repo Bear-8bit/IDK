@@ -1,0 +1,168 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.Game>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<div class="main_slider" style="background-image: url(../Content/assets/test/gif1.gif)">
+    <div class="container fill_height">
+        <div class="row align-items-center fill_height">
+            <div class="col">
+                <div class="main_slider_content">
+                    <h6></h6>
+                    <h1></h1>
+                    <!----<div class="red_button shop_now_button" style="background: #F1F6F9;"><a href="#" style=" color: #212A3E;">shop now</a></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="/Home/Index">Trang chủ</a></li>
+                    <li class="active">
+                        <a href="#"><i class='bx bx-right-arrow'></i>@ViewBag.GenreName</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Thể loại Game</h5>
+                    </div>
+                    @Html.Action("MenuLeft", "Menu", new { id = ViewBag.Genre_ID })
+
+                </div>
+
+                <!-- Price Range Filtering -->
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Lọc theo giá</h5>
+                    </div>
+                    <p>
+                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        <input type="hidden" id="FromAmount" />
+                        <input type="hidden" id="ToAmount" />
+                    </p>
+                    <div id="slider-range"></div>
+                    <div class="filter_button"><span>Lọc</span></div>
+                </div>
+
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="main_content">
+
+                <!-- Products -->
+
+                <div class="products_iso">
+                    <div class="row">
+                        <div class="col">
+
+                            <!-- Product Sorting -->
+
+                            <div class="product_sorting_container product_sorting_container_top">
+                                <ul class="product_sorting">
+                                    <li>
+                                        <span class="type_sorting_text">Mặc định</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_type">
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Mặc định</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Giá tiền</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Tên Game</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span>Hiện</span>
+                                        <span class="num_sorting_text">6</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_num">
+                                            <li class="num_sorting_btn"><span>6</span></li>
+                                            <li class="num_sorting_btn"><span>12</span></li>
+                                            <li class="num_sorting_btn"><span>24</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                               
+                            </div>
+
+                            <!-- Product Grid -->
+
+                            <div class="product-grid">
+
+                                <!-- Product 1 -->
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        var wishlist = item.Wishlists.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                                        var isWishlist = false;
+                                        //var img = item.Image;
+                                        //if (img != null)
+                                        //{
+                                        //    strImage = img.Image;
+                                        //}
+                                        //if (wishlist != null)
+                                        //{
+                                        //    isWishlist = true;
+                                        //}
+                                        <div class="product-item ">
+                                            <div class="product discount product_filter">
+                                                <div class="product_image">
+                                                    <img src="@item.Image" alt="@item.Name">
+                                                </div>
+                                                @if (isWishlist == true)
+                                                {
+                                                    <div data-id="@item.Id" class="favorite favorite_right active"></div>
+                                                }
+                                                else
+                                                {
+                                                    <div data-id="@item.Id" class="favorite favorite_right"></div>
+                                                }
+                                                <div class="product_info">
+                                                    <div class="product_info">
+                                                        <h6 class="product_name"><a href="/chi-tiet/@item.Alias-@(item.Id)">@item.Name</a></h6>
+                                                        @if (item.PriceSale > 0)
+                                                        {
+                                                            <div class="product_price">@DigitalStore.Common.Common.FormatNumber(item.PriceSale, 0) đ<span>@DigitalStore.Common.Common.FormatNumber(item.Price, 0) đ</span></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product_price">@DigitalStore.Common.Common.FormatNumber(item.Price, 0) đ</div>
+                                                            <div style="display:none;" class="in_product_price">@item.Price</div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ hàng</a></div>
+                                        </div>
+                                    }
+                                }
+
+
+
+                            </div>
+
+                            <!-- Product Sorting -->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+}

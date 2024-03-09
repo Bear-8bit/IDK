@@ -1,0 +1,226 @@
+﻿@model DigitalStore.Models.EF.Voucher
+@{
+    ViewBag.Title = "Thêm Voucher";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Home")" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index", "Voucher")" class="nav-link">Danh sách Voucher</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Add","Voucher")" class="nav-link">Thêm Voucher</a>
+        </li>
+    </ul>
+}
+@section body{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Thêm Voucher</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Voucher")">Voucher</a></li>
+                        <li class="breadcrumb-item active">Thêm mới</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Thông tin Voucher mới</h3>
+
+                <div class="card-tools">
+                    <a href="~/Voucher/Add" class="btn btn-primary">Thêm Voucher</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-body p-0">
+                    <div class="bs-stepper linear">
+
+                        <div class="bs-stepper-content">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("Add", "Voucher", FormMethod.Post, new { }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(false)
+                                    <div class="card-header p-2">
+                                        <ul class="nav nav-pills">
+                                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin chung</a></li>
+                                            @*<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">SEO</a></li>*@
+                                        </ul>
+                                    </div><!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="active tab-pane" id="activity">
+                                                
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Danh mục Voucher</label>
+                                                    @Html.DropDownListFor(x => x.VoucherType, ViewBag.VoucherCategory as SelectList, "Chọn danh mục Voucher", new { @class = "form-control", @placeholder = "Danh sách danh mục Voucher" })
+                                                    @Html.ValidationMessageFor(x => x.VoucherType, null, new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail">Giá giảm</label>
+                                                        <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-sign="" data-a-dec="," data-a-sep="." />
+                                                        @Html.HiddenFor(x => x.DiscountPrice, new { @class = "", @placeholder = "Giá giảm" })
+                                                        @Html.ValidationMessageFor(x => x.DiscountPrice, null, new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Ngày bắt đầu</label>
+                                                            @Html.TextBoxFor(x => x.StartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @readonly = "true", @placeholder = DateTime.Now.AddDays(1).Date })
+                                                            @Html.ValidationMessageFor(x => x.StartDate, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 ">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Ngày kết thúc</label>
+                                                            @Html.TextBoxFor(x => x.EndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @readonly = "true", @placeholder = DateTime.Now.AddDays(1).Date })
+                                                            @Html.ValidationMessageFor(x => x.EndDate, null, new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.tab-content -->
+                                        <div class="form-group">
+                                            <a href="/Admin/Voucher" class="btn btn-danger">Quay lại</a>
+                                            <button type="submit" class="btn btn-success">Thêm mới</button>
+                                        </div>
+                                    </div><!-- /.card-body -->
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.auto').autoNumeric('init');
+            $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPrice').autoNumeric('get');
+                $('#DiscountPrice').val(demoGet);
+                $('#DiscountPrice').autoNumeric('set', demoGet);
+            });
+            $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPriceSale').autoNumeric('get');
+                $('#PriceSale').val(demoGet);
+                $('#PriceSale').autoNumeric('set', demoGet);
+            });
+            $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoOriginalPrice').autoNumeric('get');
+                $('#OriginalPrice').val(demoGet);
+                $('#OriginalPrice').autoNumeric('set', demoGet);
+            });
+            var editor = CKEDITOR.replace('txtDetail', {
+                filebrowserBrowseUrl: '/Content/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '/Content/ckfinder/ckfinder.html?type=Images',
+                filebrowserUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                filebrowserWindowWidth: '1000',
+                filebrowserWindowHeight: '700',
+                customConfig: '/Content/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+            CKFinder.setupCKEditor(editor);
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                addImageProduct(fileUrl)
+            };
+            finder.popup();
+        }
+        function addImageProduct(url) {
+            var temp = $('#tCurrentId').val();
+            var currentId = parseInt(temp) + 1;
+            var str = "";
+            if (currentId == 1) {
+                str += ` <tr id="trow_${currentId}">
+                                         <td class="text-center">${currentId}</td>
+                                         <td class="text-center"><img width="80" src="${url}"/> <input type='hidden' value="${url}" name="Images"/> </td>
+                                         <td class="text-center"><input type="radio" name="rDefault" value="${currentId}" /></td>
+                                         <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-danger btnXoaAnh">Xóa</a></td>
+                                     </tr>`;
+            }
+            else {
+                str += ` <tr id="trow_${currentId}">
+                                         <td class="text-center">${currentId}</td>
+                                         <td class="text-center"><img width="80" src="${url}"/> <input type='hidden' value="${url}" name="Images"/> </td>
+                                         <td class="text-center"><input type="radio" value="${currentId}" name="rDefault"/></td>
+                                         <td class="text-center"><a href="#" data-id="${currentId}" class="btn btn-danger btnXoaAnh">Xóa</a></td>
+                                     </tr>`;
+            }
+            $('#tbHtml').append(str);
+            $('#tCurrentId').val(currentId);
+            $('#tbHtml tr td a').each(function () {
+                $(this).click(function () {
+                    var conf = confirm("Bạn có muốn xóa ảnh này không ?");
+                    if (conf === true) {
+                        var _id = $(this).data('id');
+                        $('#trow_' + _id).fadeTo('fast', 0.5, function () {
+                            $(this).slideUp('fast', function () {
+                                $(this).remove();
+                            });
+                        });
+                        var temp = $('#tCurrentId').val();
+                        var currentId = parseInt(temp) - 1;
+                        $('#tCurrentId').val(currentId);
+                    }
+
+                });
+            });
+            
+        }
+        $('.datepicker').datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date()
+        });
+        var date = new Date();
+        date.setDate(date.getDate());
+        date.setFullYear(date.getFullYear() - 18);
+        $("#txtActiveDate").datepicker('setDate', date);
+        $("#txtActiveDate").datepicker('option', 'maxDate', new Date())
+        $("#txtActiveDate").change(function () {
+
+        });
+    </script>
+}
+
+

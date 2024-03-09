@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DigitalStore.Models.ShoppingCartItem>
+@using DigitalStore.Common
+
+
+<table class="table">
+
+
+
+    @if (Model != null && Model.Any())
+    {
+        <tr class="text-center">
+
+            <th>STT</th>
+            <th>Ảnh sản phẩm</th>
+            <th colspan="2">Tên sản phẩm</th>
+            <th colspan="1">Danh mục sản phẩm</th>
+            <th style="width: 100px;" colspan="3">Giá </th>
+            <th style="width: 200px; display: none;">
+
+            </th>
+        </tr>
+        var i = 0;
+        var tongtien = decimal.Zero;
+        foreach (var item in Model)
+        {
+            tongtien += item.TotalPrice;
+            <tr class="text-center" id="trow_@item.ProductId">
+                <td>@(i+1)</td>
+                <td><img src="@item.ProductImg" style="width: 160px;" /></td>
+                <td colspan="1"><a href="/chi-tiet/@item.Alias-@(item.ProductId) " style="color: #162938;">@item.ProductName</a></td>
+                <td colspan="2">@item.CategoryName</td>
+                <td colspan="3">@Common.FormatNumber(item.Price, 0)</td>
+                <td style="display: none;"><input type="number" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" style="color: #162938;" /></td>
+                <th style="display: none;">@Common.FormatNumber(item.TotalPrice, 2)</th>
+                <td colspan="1">
+                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                </td>
+            </tr>
+            i++;
+        }
+        <tr>
+            <th colspan="7" class="text-right" style="padding-left: 60px;">Tổng : </th>
+            <th colspan="1" style="padding-left: 60px;">@Common.FormatNumber(tongtien, 0) </th>
+            <td colspan="1" style="padding-left: 75px;">
+                <a href="#" class="btn btn-danger btnDeleteAll">Xóa</a>
+                <a href="/thanh-toan" class="btn btn-success">Mua</a>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <div class="row row-item-new">
+            <div class="row">
+                <div class="col-md-6" style="left: 370px;">
+                    <img src="~/Content/assets/test/noshoppingcart.png" style="width: 380px; height: auto;" />
+                </div>
+                <div class="col-md-10" style="left: 300px; top: 20px; height: 100px;">
+                    <h3>Bạn chưa thêm sản phẩm nào vào giỏ hàng</h3>
+                </div>
+            </div>
+        </div>
+    }
+
+</table>
+

@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Colo Shop</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/bootstrap4/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=MuseoModerno:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/slider.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/responsive.css">
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <header class="header trans_300">
+
+
+            <!-- Main Navigation -->
+
+            <div class="main_nav_container" style="position: fixed; top: 0; width: 100%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <div class="logo_container">
+                                <a href="#" style="color: #F1F6F9;">Pinwheel<span style="color: #64CCC5;"> Galaxy</span></a>
+                            </div>
+                            <nav class="navbar">
+                                @Html.Action("MenuTop", "Menu")
+
+                                @if (!Request.IsAuthenticated)
+                                {
+                                    <div class="pl-4">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm border-1" style="color: #F1F6F9;">
+                                                <a class="btn" style="color: #212A3E;" type="button" href="/Account/Login">Đăng nhập</a>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <ul class="navbar_user">
+                                        <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                        <li>
+
+                                        </li>
+                                        <li class="checkout">
+                                            <a href="/gio-hang">
+                                                <i class='bx bx-shopping-bag' style="font-size: 20px;"></i>
+                                                <span id="checkout_items" class="checkout_items">0</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="pl-4">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary-outline dropdown-toggle" style="color: #F1F6F9; font-size: 20px; background-color: transparent;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <i class='bx bxs-user' style="color: #F1F6F9;"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">@User.Identity.Name</a>
+                                                <a class="dropdown-item" href="/Account/Profile">Xem thông tin cá nhân</a>
+                                                <a class="dropdown-item" href="/Wishlist/Index">Sản phẩm yêu thích</a>
+                                                <a class="dropdown-item" href="javascript:document.getElementById('logOffForm').submit()">Đăng xuất</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <div class="hamburger_container">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        @RenderBody()
+
+
+
+
+
+        <!-- Footer -->
+
+        <footer class="footer" style="height: 5%; overflow: hidden; background-color: #212A3E;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                            <ul class="footer_nav">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                            <ul>
+                                <li><a href="#" style="font-size: 30px;"><i class='bx bxl-steam'></i></li>
+                                <li><a href="#" style="font-size: 30px;"><i class='bx bxl-twitter'></i></a></li>
+                                <li><a href="#" style="font-size: 30px;"><i class='bx bxl-meta'></i></a></li>
+                                <li><a href="#" style="font-size: 30px;"><i class='bx bxl-discord-alt'></i></li>
+                                <li><a href="#" style="font-size: 30px;"><i class='bx bxl-twitch'></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row flex-nowrap">
+                    <div class="p-2 mr-auto">
+                        <div class="footer_nav_container">
+                            <p style="color: #F1F6F9;">About Us</p>
+                            <ul>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-briefcase-alt-2' style="padding-right: 10px; padding-top: 5px;"></i>Jobs</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-notepad' style='padding-right: 10px; padding-top: 5px;'></i>Legal</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-detail' style='padding-right: 10px; padding-top: 5px;'></i>Subscriber Agreement</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bxs-coupon' style='padding-right: 10px; padding-top: 5px;'></i>Gift Cards</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-money-withdraw' style='padding-right: 10px; padding-top: 5px;'></i>Distributions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mr-auto">
+                        <div class="footer_nav_container">
+                            <p style="color: #F1F6F9;">Customer Support</p>
+                            <ul>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-credit-card-alt' style='padding-right: 10px; padding-top: 5px;'></i>Refunds </a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-shield-plus' style='padding-right: 10px; padding-top: 5px;'></i>Privacy Policy</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-area' style='padding-right: 10px; padding-top: 5px;'></i>Partner Program</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-planet' style='padding-right: 10px; padding-top: 5px;'></i>How PinwheelGalaxy Work</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mr-auto">
+                        <div class="footer_nav_container">
+                            <p style="color: #F1F6F9;">Contact Us</p>
+                            <ul>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-window-open' style='padding-right: 10px; padding-top: 5px;'></i>Jobs</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-archive' style='padding-right: 10px; padding-top: 5px;'></i>Publish Argreement</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-envelope' style='padding-right: 10px; padding-top: 5px;'></i>Email Address</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-shape-circle' style='padding-right: 10px; padding-top: 5px;'></i>Become Partner</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-desktop' style='padding-right: 10px; padding-top: 5px;'></i>How Publishing Work</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mr-auto">
+                        <div class="footer_nav_container">
+                            <p style="color: #F1F6F9;">Schadenfreude</p>
+                            <ul>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-game' style='padding-right: 10px; padding-top: 5px;'></i>Memes</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-store' style='padding-right: 10px; padding-top: 5px;'></i>Market Plier</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bxs-invader' style='padding-right: 10px; padding-top: 5px;'></i>VAT V</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bx-message-dots' style='padding-right: 10px; padding-top: 5px;'></i>IRWTSAYH</a></li>
+                                <li><a href="#" style="color: #F1F6F9;"><i class='bx bxl-graphql' style='padding-right: 10px; padding-top: 5px;'></i>2077</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 70px;">
+                    <div class="col-lg-8">
+                        <div class="footer_nav_container">
+                            <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
+    <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/Content/assets/plugins/easing/easing.js"></script>
+    <script src="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="~/Content/assets/js/sliderscript.js"></script>
+    <script src="~/Content/assets/js/custom.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jsShopping.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+@if (Request.IsAuthenticated)
+{
+    <div style="display: none;">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        {
+            @Html.AntiForgeryToken();
+        }
+    </div>
+}

@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.Order>
+@using DigitalStore.Common
+@{
+    ViewBag.Title = "Giỏ hàng";
+}
+
+<link href="~/Content/assets/styles/categories_responsive.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+
+<!-- Slider -->
+
+
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                </ul>
+            </div>
+
+
+            <!-- Main Content -->
+            <!-- Products -->
+            <div class="row">
+               
+                <div class="col-6">
+                    <div>
+                        <div>
+                            <div class="card-body">
+                                <h3>Thanh toán thành công</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Tên khách hàng</th>
+                                            <th>Email</th>
+                                            <th>Tổng tiền</th>
+
+                                            <th>Số tiền giảm</th>
+                                            <th>Ngày tạo</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @if (Model != null && Model.Any())
+                                        {
+                                            var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@item.Order_Code</td>
+                                                    <td>@item.UserName</td>
+                                                    <td>@item.Email</td>
+                                                    <td>@DigitalStore.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
+                                                    <td>@DigitalStore.Common.Common.FormatNumber(item.DiscountPrice, 0)</td>
+                                                    <td>@item.CreatedDate.ToString()</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                        
+                                </table>
+
+                                <div class="row">
+                                    <div class="col-6"></div>
+                                    <div class="col-6" style="text-align: right;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+
+}
+
+

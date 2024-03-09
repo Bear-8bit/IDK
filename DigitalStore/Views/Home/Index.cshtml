@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- Slider -->
+
+<div class="main_slider">
+    <div class="main_banner_container">
+        <img src="~/Content/assets/test/banner5.jpg">
+    </div>
+</div>
+
+<!-- Banner -->
+@Html.Action("MenuGameGenre", "Menu")
+
+
+<!-- New Arrivals -->
+
+<div class="new_arrivals">
+    <div class="container">
+        @Html.Action("MenuArrivals", "Menu")
+    </div>
+</div>
+
+<!-- Deal of the week -->
+
+<div class="deal_ofthe_week">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="deal_ofthe_week_img">
+                    <img src="~/Content/assets/test/soulcinder.png" alt="" class="pr-4">
+                </div>
+            </div>
+            <div class="col-lg-6 text-right deal_ofthe_week_col" style="padding-left: 50px;">
+                <div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+                    <div style="padding-left: 10px;">
+                        <div class="section_title">
+                            <h2>Ưu đãi trong tuần</h2>
+                        </div>
+                    </div>
+                    
+                    <ul class="timer" style="padding-right: 100px;">
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="day" class="timer_num">03</div>
+                            <div class="timer_unit">Ngày</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="hour" class="timer_num">15</div>
+                            <div class="timer_unit">Giờ</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="minute" class="timer_num">45</div>
+                            <div class="timer_unit">Phút</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="second" class="timer_num">23</div>
+                            <div class="timer_unit">Giây</div>
+                        </li>
+                    </ul>
+                    <div style="padding-left: 50px;">
+                        <div class="red_button deal_ofthe_week_button"><a href="#">Mua ngay</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Best Sellers -->
+
+@Html.Action("Partical_GameSale", "Games")
+
+
+
+@Html.Action("Partical_TopSeller", "Games")
+
+
+@Html.Action("Partical_NewRelease", "Games")

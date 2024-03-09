@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DigitalStore.Models.EF.Game>
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        var wishlist = item.Wishlists.FirstOrDefault(x => x.UserName == User.Identity.Name);
+        var isWishlist = false;
+        var strImage = "";
+        var img = item.GameImage.FirstOrDefault(x => x.IsDefault);
+        if (img != null)
+        {
+            strImage = img.Image;
+        }
+        <!-- Product 1 -->
+        if(wishlist != null)
+        {
+            isWishlist = true;
+        }
+        <div class="product-item @item.GameGenres.Alias">
+            <div class="product discount product_filter">
+                <div class="product_image">
+                    <img src="@item.Image" alt="@item.Name">
+                </div>
+                @if (isWishlist == true)
+                {
+                    <div data-id="@item.Id" class="favorite favorite_right active"></div>
+                }
+                else
+                {
+                    <div data-id="@item.Id" class="favorite favorite_right"></div>
+                }
+                
+                @*<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
+                <div class="product_info">
+                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias-@(item.Id)">@item.Name</a></h6>
+                    @if (item.PriceSale > 0)
+                    {
+                        <div class="product_price">@DigitalStore.Common.Common.FormatNumber(item.PriceSale, 0) đ<span>@DigitalStore.Common.Common.FormatNumber(item.Price, 0) đ</span></div>
+                    }
+                    else
+                    {
+                        <div class="product_price">@DigitalStore.Common.Common.FormatNumber(item.Price, 0) đ</div>
+                        <div style="display: none;" vallue="@item.Price" class="in_product_price">@item.Price</div>
+                    }
+                </div>
+            </div>
+            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ hàng</a></div>
+        </div>
+    }
+}
